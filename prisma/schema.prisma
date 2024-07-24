@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+model ServiciosGeneral {
+  IdServicio       Int                   @id @default(autoincrement())
+  NombreServicio   String
+  ServicioEspecifico ServiciosEspecificos[]
+}
+
+model ServiciosEspecificos {
+  IdServicioEspecifico    Int                   @id @default(autoincrement())
+  IdServicio              Int
+  NombreServicioEspecifico String
+  CostoServicioEspecifico  Int
+  ServiciosGeneral        ServiciosGeneral      @relation(fields: [IdServicio], references: [IdServicio], onDelete: Cascade)
+  Cita                    Cita[]
+}
+
+model Cita {
+  IdCita Int @id @default(autoincrement())
+  FechaCita DateTime
+  Nombre_Cliente String
+  Apellido_Cliente String
+  Correo_Cliente String
+  IdServicioEspecifico Int
+  ServiciosEspecificos ServiciosEspecificos @relation(fields: [IdServicioEspecifico], references: [IdServicioEspecifico])
+  IdSolicitante Int
+  solicitante Solicitante @relation("citasPorSolicitante", fields: [IdSolicitante], references: [IdSolicitante])
+}
+
+model Usuario {
+  IdUsuario Int @id @default(autoincrement())
+  NombreUsuario String @unique
+  Contrasenna String
+  Email String @unique
+  FechaRegistro DateTime @default(now())
+  HistorialSistema HistorialSistema[]
+}
+
+model HistorialSistema {
+  IdHistorial Int @id @default(autoincrement())
+  NombreModelo String
+  DescripcionAccion String
+  FechaAccion DateTime @default(now())
+  IdUsuario Int
+  Usuario Usuario @relation(fields: [IdUsuario], references: [IdUsuario])
+}
+
+model Solicitante {
+  IdSolicitante       Int      @id @default(autoincrement())
+  Nombre_Solicitante   String
+  Email    String   @unique
+  Contrasenna String
+  citas    Cita[]    @relation("citasPorSolicitante")
+}

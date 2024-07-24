@@ -1,0 +1,29 @@
+###
+
+GET http://localhost/serviciogeneral/ HTTP/1.1
+
+###
+
+GET http://localhost/serviciogeneral/5 HTTP/1.1
+
+###
+
+POST http://localhost/serviciogeneral HTTP/1.1
+Content-Type: application/json
+
+{
+  "NombreServicio": "Música"
+}
+
+###
+
+DELETE http://localhost/serviciogeneral/7 HTTP/1.1
+
+###
+
+PUT http://localhost/serviciogeneral/7 HTTP/1.1
+Content-Type: application/json
+
+{
+  "ServiciosGeneral": "Música"
+}

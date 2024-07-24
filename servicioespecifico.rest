@@ -1,0 +1,33 @@
+###
+
+GET http://localhost/servicioespecifico/ HTTP/1.1
+
+###
+
+GET http://localhost/servicioespecifico/32 HTTP/1.1
+
+###
+
+POST http://localhost/servicioespecifico HTTP/1.1
+Content-Type: application/json
+
+{
+  "IdServicio": 8,
+  "NombreServicioEspecifico": "Lectura Musical",
+  "CostoServicioEspecifico": 1000
+}
+
+###
+
+DELETE http://localhost/servicioespecifico/32 HTTP/1.1
+
+###
+
+PUT http://localhost/servicioespecifico/32 HTTP/1.1
+Content-Type: application/json
+
+{
+  "IdServicio": 1,
+  "NombreServicioEspecifico": "Compras Efectivas V2",
+  "CostoServicioEspecifico": 1000
+}
