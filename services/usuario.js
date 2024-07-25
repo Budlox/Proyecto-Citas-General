@@ -48,21 +48,43 @@ class Usuario {
   
   
 
-  async Borrar(IdUsuario) {
+  async Borrar(IdSolicitante) {
     let resultado;
     try {
-      resultado = await prisma.usuario.delete({
+      const idSolicitanteInt = parseInt(IdSolicitante, 10);
+  
+      // Verificar si el solicitante existe
+      const solicitanteExiste = await prisma.solicitante.findUnique({
         where: {
-          IdUsuario: parseInt(IdUsuario),
-        },
+          IdSolicitante: idSolicitanteInt
+        }
       });
-      await historialSistema.registrarHistorial('Usuario', 'Se borró un usuario', IdUsuario);
+  
+      if (!solicitanteExiste) {
+        throw new Error(`El solicitante con ID ${idSolicitanteInt} no existe`);
+      }
+  
+      // Eliminar citas relacionadas
+      await prisma.cita.deleteMany({
+        where: {
+          IdSolicitante: idSolicitanteInt
+        }
+      });
+  
+      // Eliminar solicitante
+      resultado = await prisma.solicitante.delete({
+        where: {
+          IdSolicitante: idSolicitanteInt
+        }
+      });
     } catch (error) {
-      console.error(`No se pudo borrar el usuario ${IdUsuario} debido al error: ${error}`);
+      console.error("Error al borrar solicitante:", error);
+      throw error;
     }
     return resultado;
-  };
-
+  }
+  
+  
   Listar(IdUsuario) {
     let Usuarios;
     if (IdUsuario === undefined) {

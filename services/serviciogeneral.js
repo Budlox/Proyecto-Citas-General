@@ -24,19 +24,27 @@ class ServicioGeneral {
     return resultado;
   }
 
-  async Actualizar(IdServicio, serviciosGeneral) {
-    let resultado;
-    try {
-      resultado = await prisma.serviciosGeneral.update({
-        where: { IdServicio: parseInt(IdServicio) },
-        data: { NombreServicio: serviciosGeneral.NombreServicio },
-      });
-      await historialSistema.registrarHistorial('Servicio General', 'Se actualizó un servicio general', IdServicio);
-    } catch (error) {
-      console.error(`No se pudo actualizar el servicio general ${IdServicio} debido al error: ${error}`);
+  // Actualizar servicio general
+async Actualizar(IdServicio, datosActualizados) {
+  let resultado;
+  try {
+    if (!datosActualizados.NombreServicio) {
+      throw new TypeError("NombreServicio no puede estar vacío");
     }
-    return resultado;
+
+    resultado = await prisma.serviciosGeneral.update({
+      where: {
+        IdServicio: IdServicio
+      },
+      data: datosActualizados
+    });
+  } catch (error) {
+    console.error("Error al actualizar servicio general:", error);
+    throw error;
   }
+  return resultado;
+}
+
 
   async Borrar(IdServicio) {
     let resultado;

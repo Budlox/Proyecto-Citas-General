@@ -60,17 +60,58 @@ class ServicioEspecifico {
   async BorrarPorIdServicio(IdServicio) {
     let resultado;
     try {
-      resultado = await prisma.serviciosEspecificos.deleteMany({
+      const idServicioInt = parseInt(IdServicio, 10);
+  
+      // Verificar si el servicio general existe
+      const servicioGeneralExiste = await prisma.serviciosGeneral.findUnique({
         where: {
-          IdServicio: parseInt(IdServicio),
-        },
+          IdServicio: idServicioInt
+        }
       });
-      await historialSistema.registrarHistorial('Servicio Específico', `Se borraron los servicios específicos relacionados con el servicio general ${IdServicio}`, IdServicio);
+  
+      if (!servicioGeneralExiste) {
+        throw new Error(`El servicio general con ID ${idServicioInt} no existe`);
+      }
+  
+      // Eliminar las citas relacionadas con los servicios específicos
+      await prisma.cita.deleteMany({
+        where: {
+          IdServicioEspecifico: {
+            in: (await prisma.serviciosEspecificos.findMany({
+              where: {
+                IdServicio: idServicioInt
+              },
+              select: {
+                IdServicioEspecifico: true
+              }
+            })).map(se => se.IdServicioEspecifico)
+          }
+        }
+      });
+  
+      // Eliminar los servicios específicos relacionados
+      await prisma.serviciosEspecificos.deleteMany({
+        where: {
+          IdServicio: idServicioInt
+        }
+      });
+  
+      // Eliminar el servicio general
+      resultado = await prisma.serviciosGeneral.delete({
+        where: {
+          IdServicio: idServicioInt
+        }
+      });
     } catch (error) {
-      console.error(`No se pudieron borrar los servicios específicos relacionados con el servicio general ${IdServicio} debido al error: ${error}`);
+      console.error("Error al borrar servicio general:", error);
+      throw error;
     }
     return resultado;
   }
+  
+  
+  
+
 
   Listar(IdServicioEspecifico) {
     let ServiciosEspecificos;
