@@ -54,16 +54,16 @@ async function main() {
 
   const usuarios = await prisma.usuario.createMany({
     data: [
-      { NombreUsuario: 'john_doe', Contrasenna: '123456', Email: 'john.doe@example.com' },
-      { NombreUsuario: 'jane_smith', Contrasenna: '123456', Email: 'jane.smith@example.com' },
-      { NombreUsuario: 'miguel_gomez', Contrasenna: '123456', Email: 'miguel.gomez@example.com' },
-      { NombreUsuario: 'lisa_rey', Contrasenna: '123456', Email: 'lisa.rey@example.com' },
-      { NombreUsuario: 'pablo_martinez', Contrasenna: '123456', Email: 'pablo.martinez@example.com' },
-      { NombreUsuario: 'maria_garcia', Contrasenna: '123456', Email: 'maria.garcia@example.com' },
-      { NombreUsuario: 'roberto_lopez', Contrasenna: '123456', Email: 'roberto.lopez@example.com' },
-      { NombreUsuario: 'ana_ramirez', Contrasenna: '123456', Email: 'ana.ramirez@example.com' },
-      { NombreUsuario: 'carlos_vega', Contrasenna: '123456', Email: 'carlos.vega@example.com' },
-      { NombreUsuario: 'laura_rivera', Contrasenna: '123456', Email: 'laura.rivera@example.com' }
+      { NombreUsuario: 'john_doe', Contrasenna: '$2b$10$NTkgRw6yJk7h/fd5DC2DyuUXM5xbjmouqMymUrL6O4B3eEsarpPga', Email: 'john.doe@example.com', Rol:'Nivel0', Token:'-' },
+      { NombreUsuario: 'jane_smith', Contrasenna: '$2b$10$NTkgRw6yJk7h/fd5DC2DyuUXM5xbjmouqMymUrL6O4B3eEsarpPga', Email: 'jane.smith@example.com', Rol:'Nivel0', Token:'-' },
+      { NombreUsuario: 'miguel_gomez', Contrasenna: '$2b$10$NTkgRw6yJk7h/fd5DC2DyuUXM5xbjmouqMymUrL6O4B3eEsarpPga', Email: 'miguel.gomez@example.com', Rol:'Nivel0', Token:'-' },
+      { NombreUsuario: 'lisa_rey', Contrasenna: '$2b$10$NTkgRw6yJk7h/fd5DC2DyuUXM5xbjmouqMymUrL6O4B3eEsarpPga', Email: 'lisa.rey@example.com', Rol:"Nivel0", Token:'-' },
+      { NombreUsuario: 'pablo_martinez', Contrasenna: '$2b$10$NTkgRw6yJk7h/fd5DC2DyuUXM5xbjmouqMymUrL6O4B3eEsarpPga', Email: 'pablo.martinez@example.com', Rol:'Nivel0', Token:'-' },
+      { NombreUsuario: 'maria_garcia', Contrasenna: '$2b$10$NTkgRw6yJk7h/fd5DC2DyuUXM5xbjmouqMymUrL6O4B3eEsarpPga', Email: 'maria.garcia@example.com', Rol:'Nivel0', Token:'-' },
+      { NombreUsuario: 'roberto_lopez', Contrasenna: '$2b$10$NTkgRw6yJk7h/fd5DC2DyuUXM5xbjmouqMymUrL6O4B3eEsarpPga', Email: 'roberto.lopez@example.com', Rol:'Nivel0', Token:'-' },
+      { NombreUsuario: 'ana_ramirez', Contrasenna: '$2b$10$NTkgRw6yJk7h/fd5DC2DyuUXM5xbjmouqMymUrL6O4B3eEsarpPga', Email: 'ana.ramirez@example.com', Rol:'Nivel0', Token:'-' },
+      { NombreUsuario: 'carlos_vega', Contrasenna: '$2b$10$NTkgRw6yJk7h/fd5DC2DyuUXM5xbjmouqMymUrL6O4B3eEsarpPga', Email: 'carlos.vega@example.com', Rol:'Nivel0', Token:'-' },
+      { NombreUsuario: 'laura_rivera', Contrasenna: '$2b$10$NTkgRw6yJk7h/fd5DC2DyuUXM5xbjmouqMymUrL6O4B3eEsarpPga', Email: 'laura.rivera@example.com', Rol:'Nivel0', Token:'-' }
     ]
   });
 

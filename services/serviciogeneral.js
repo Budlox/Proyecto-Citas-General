@@ -11,39 +11,60 @@ class ServicioGeneral {
 
   async Agregar(servicioGeneral) {
     let resultado;
+    if (!servicioGeneral || !servicioGeneral.NombreServicio) {
+      throw new Error('Missing NombreServicio in request body');
+    }
+  
     try {
+      console.log('Adding service:', servicioGeneral);
       resultado = await prisma.serviciosGeneral.create({
         data: {
           NombreServicio: servicioGeneral.NombreServicio
         }
       });
+      console.log('Service added:', resultado);
       await historialSistema.registrarHistorial('Servicio General', 'Se agregó un servicio general', resultado.IdServicio);
     } catch (error) {
-      console.error(`No se pudo insertar el servicio general ${servicioGeneral} debido al error: ${error}`);
+      console.error(`No se pudo insertar el servicio general ${JSON.stringify(servicioGeneral)} debido al error: ${error}`);
     }
     return resultado;
   }
+  
+  
+  
+  
 
   // Actualizar servicio general
-async Actualizar(IdServicio, datosActualizados) {
-  let resultado;
-  try {
-    if (!datosActualizados.NombreServicio) {
+  async Actualizar(IdServicio, datosActualizados) {
+    let resultado;
+    if (!datosActualizados || !datosActualizados.NombreServicio) {
       throw new TypeError("NombreServicio no puede estar vacío");
     }
-
-    resultado = await prisma.serviciosGeneral.update({
-      where: {
-        IdServicio: IdServicio
-      },
-      data: datosActualizados
-    });
-  } catch (error) {
-    console.error("Error al actualizar servicio general:", error);
-    throw error;
+  
+    try {
+      // Convert IdServicio to an integer
+      const idServicioInt = parseInt(IdServicio, 10);
+      if (isNaN(idServicioInt)) {
+        throw new TypeError("IdServicio debe ser un número válido");
+      }
+  
+      resultado = await prisma.serviciosGeneral.update({
+        where: {
+          IdServicio: idServicioInt
+        },
+        data: {
+          NombreServicio: datosActualizados.NombreServicio
+        }
+      });
+    } catch (error) {
+      console.error("Error al actualizar servicio general:", error);
+      throw error;
+    }
+    return resultado;
   }
-  return resultado;
-}
+  
+  
+  
 
 
   async Borrar(IdServicio) {

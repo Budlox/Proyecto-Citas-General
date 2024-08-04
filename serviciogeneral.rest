@@ -1,7 +1,7 @@
 ###
 
 GET http://localhost/serviciogeneral/ HTTP/1.1
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IkVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJSb2wiOiJOaXZlbDAiLCJJZFVzdWFyaW8iOjF9LCJpYXQiOjE3MjI3OTkxNzcsImV4cCI6MTcyMjc5OTIzN30.NakJ7sdSDxGenUm0dZPCA6wbw2Qaqqfp9T_IMAEcnFY
 ###
 
 GET http://localhost/serviciogeneral/5 HTTP/1.1
@@ -9,21 +9,24 @@ GET http://localhost/serviciogeneral/5 HTTP/1.1
 ###
 
 POST http://localhost/serviciogeneral HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IkVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJSb2wiOiJOaXZlbDAiLCJJZFVzdWFyaW8iOjF9LCJpYXQiOjE3MjI3OTk2MzgsImV4cCI6MTcyMjc5OTY5OH0.JMseezhZrCchcKaRQkBrCZS4C9pUWHpg7LwB0humBEw
 Content-Type: application/json
 
 {
-  "NombreServicio": "Música"
+  "NombreServicio": "Lunes"
 }
 
 ###
 
 DELETE http://localhost/serviciogeneral/7 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IkVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJSb2wiOiJOaXZlbDAiLCJJZFVzdWFyaW8iOjF9LCJpYXQiOjE3MjI3OTI0MDAsImV4cCI6MTcyMjc5MjQ2MH0.9C3xRHlrBFzX0jnCZPtGEvpQYwdPP5FJ-WxgFV2gWKo
 
 ###
 
 PUT http://localhost/serviciogeneral/7 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IkVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJSb2wiOiJOaXZlbDAiLCJJZFVzdWFyaW8iOjF9LCJpYXQiOjE3MjI3OTMyNTYsImV4cCI6MTcyMjc5MzMxNn0.JysXgQNT20181QmPMJ9KFXFnvDHNhMoZlkSWGUfsMCg
 Content-Type: application/json
 
 {
-  "ServiciosGeneral": "Música"
+  "NombreServicio": "Mosica"
 }

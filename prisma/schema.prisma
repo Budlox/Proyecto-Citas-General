@@ -40,13 +40,22 @@ model Cita {
 }
 
 model Usuario {
-  IdUsuario Int @id @default(autoincrement())
-  NombreUsuario String @unique
-  Contrasenna String
-  Email String @unique
-  FechaRegistro DateTime @default(now())
+  IdUsuario      Int               @id @default(autoincrement())
+  NombreUsuario  String            @unique
+  Contrasenna    String
+  Email          String            @unique
+  FechaRegistro  DateTime          @default(now())
   HistorialSistema HistorialSistema[]
+  Rol            Roles             @default(Nivel0)
+  Token          String            @default("-") @db.VarChar(300)
 }
+
+enum Roles {
+  Nivel0
+  Nivel1
+  Nivel2
+}
+
 
 model HistorialSistema {
   IdHistorial Int @id @default(autoincrement())

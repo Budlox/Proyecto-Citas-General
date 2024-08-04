@@ -5,6 +5,32 @@ const ServicioUsuario = require('./../services/usuario.js');
 const Router = express.Router();
 const Usuarios = new ServicioUsuario();
 
+Router.post("/autenticar", async (solicitud, respuesta) => {
+  try {
+    const resultado = await Usuarios.Autenticar(solicitud.body.Email, solicitud.body.Contrasenna);
+    if (resultado) {
+      respuesta.json({ token: resultado });
+    } else {
+      respuesta.status(401).json({ error: "Autenticación fallida" });
+    }
+  } catch (error) {
+    respuesta.status(500).json({ error: error.message });
+  }
+});
+
+Router.post("/validartoken", async (solicitud, respuesta) => {
+  try {
+    const resultado = await Usuarios.ValidarToken(solicitud);
+    if (resultado) {
+      respuesta.json(resultado);
+    } else {
+      respuesta.status(401).json({ error: "Token inválido" });
+    }
+  } catch (error) {
+    respuesta.status(500).json({ error: error.message });
+  }
+});
+
 Router.get("/", async (solicitud, respuesta) => {
   const Usuarios = await listadoDeUsuarios(solicitud.params.IdUsuario);
   respuesta.json(Usuarios);

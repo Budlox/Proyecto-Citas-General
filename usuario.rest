@@ -33,3 +33,16 @@ Content-Type: application/json
     "Email": "pruebausuario@example.com",
     "FechaRegistro": "2024-06-08T00:34:27.693Z"
   }
+
+###
+POST http://localhost/usuario/autenticar HTTP/1.1
+Content-Type: application/json
+
+{
+  "Email": "john.doe@example.com",
+  "Contrasenna": "123456"
+}
+
+###
+POST http://localhost/usuario/validartoken HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IkVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJSb2wiOiJOaXZlbDAiLCJJZFVzdWFyaW8iOjF9LCJpYXQiOjE3MjI0Nzk4MzMsImV4cCI6MTcyMjQ3OTg5M30.13lRGIudCnTK4GmrEUqW7-SX49UfTGyahGZMJiEDsFU
