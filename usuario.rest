@@ -1,7 +1,7 @@
 ###
 
 GET http://localhost/usuario/ HTTP/1.1
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IkVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJSb2wiOiJOaXZlbDAiLCJJZFVzdWFyaW8iOjF9LCJpYXQiOjE3MjI4Mjg0NTAsImV4cCI6MTcyMjgyODUxMH0.7XGbit7llVkl0IwYp1dfoB09hqmrrALSYfggPYMOcUg
 ###
 
 GET http://localhost/usuario/10 HTTP/1.1

@@ -1,4 +1,5 @@
-const { PrismaClient } = require("@prisma/client")
+const { PrismaClient } = require("@prisma/client");
+const bcrypt = require('bcrypt');
 const HistorialSistema = require('./historialsistema');
 
 const prisma = new PrismaClient();
@@ -6,9 +7,7 @@ const historialSistema = new HistorialSistema();
 
 class Solicitante {
 
-  constructor() {
-
-  };
+  constructor() {}
 
   async Agregar(solicitante) {
     let resultado;
@@ -17,12 +16,15 @@ class Solicitante {
     }
 
     try {
+      // Hash the password before storing it
+      const hashedPassword = await bcrypt.hash(solicitante.Contrasenna, 10);
+      
       console.log('Solicitante:', solicitante);
       resultado = await prisma.solicitante.create({
         data: {
-            Nombre_Solicitante: solicitante.Nombre_Solicitante,
-            Email: solicitante.Email,
-            Contrasenna: solicitante.Contrasenna
+          Nombre_Solicitante: solicitante.Nombre_Solicitante,
+          Email: solicitante.Email,
+          Contrasenna: hashedPassword
         }
       });
       await historialSistema.registrarHistorial('Solicitante', 'Se agregó un solicitante', resultado.IdSolicitante);
@@ -32,26 +34,32 @@ class Solicitante {
     return resultado;
   }
   
-
   async Actualizar(IdSolicitante, datosActualizados) {
     let resultado;
     if (!datosActualizados) {
-      throw new TypeError("NombreServicio no puede estar vacío");
+      throw new TypeError("Datos actualizados no pueden estar vacíos");
     }
 
     try {
       const idSolicitanteInt = parseInt(IdSolicitante, 10);
       if (isNaN(idSolicitanteInt)) {
-        throw new TypeError("IdServicio debe ser un número válido");
+        throw new TypeError("IdSolicitante debe ser un número válido");
       }
       
+      // Prepare the data to be updated
+      const updateData = {
+        Nombre_Solicitante: datosActualizados.Nombre_Solicitante,
+        Email: datosActualizados.Email
+      };
+
+      // Hash the password if it's provided
+      if (datosActualizados.Contrasenna) {
+        updateData.Contrasenna = await bcrypt.hash(datosActualizados.Contrasenna, 10);
+      }
+
       resultado = await prisma.solicitante.update({
         where: { IdSolicitante: idSolicitanteInt },
-        data: {
-          Nombre_Solicitante: datosActualizados.Nombre_Solicitante,
-          Email: datosActualizados.Email,
-          Contrasenna: datosActualizados.Contrasenna
-      },
+        data: updateData,
       });
       await historialSistema.registrarHistorial('Solicitante', 'Se actualizó un solicitante', IdSolicitante);
     } catch (error) {
@@ -60,21 +68,41 @@ class Solicitante {
     return resultado;
   }
   
-
   async Borrar(IdSolicitante) {
     let resultado;
     try {
+      const idSolicitanteInt = parseInt(IdSolicitante, 10);
+  
+      // Verificar si el solicitante existe
+      const solicitanteExiste = await prisma.solicitante.findUnique({
+        where: {
+          IdSolicitante: idSolicitanteInt
+        }
+      });
+  
+      if (!solicitanteExiste) {
+        throw new Error(`El solicitante con ID ${idSolicitanteInt} no existe`);
+      }
+  
+      // Eliminar citas relacionadas
+      await prisma.cita.deleteMany({
+        where: {
+          IdSolicitante: idSolicitanteInt
+        }
+      });
+  
+      // Eliminar solicitante
       resultado = await prisma.solicitante.delete({
         where: {
-          IdSolicitante: parseInt(IdSolicitante),
-        },
+          IdSolicitante: idSolicitanteInt
+        }
       });
-      await historialSistema.registrarHistorial('Solicitante', 'Se borró un solicitante', IdSolicitante);
     } catch (error) {
-      console.error(`No se pudo borrar el solicitante ${IdSolicitante} debido al error: ${error}`);
+      console.error("Error al borrar solicitante:", error);
+      throw error;
     }
     return resultado;
-  };
+  }
 
   Listar(IdSolicitante) {
     let Solicitantes;
@@ -83,12 +111,12 @@ class Solicitante {
     } else {
       Solicitantes = prisma.solicitante.findMany({
         where: {
-            IdSolicitante: parseInt(IdSolicitante),
+          IdSolicitante: parseInt(IdSolicitante),
         },
       });
     }
     return Solicitantes;
-  };
+  }
 }
 
 module.exports = Solicitante;

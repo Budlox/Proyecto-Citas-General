@@ -86,78 +86,82 @@ class Usuario {
 
   async Agregar(usuario) {
     let resultado;
+    if (!usuario) {
+      throw new Error('Faltan los datos');
+    }
+  
     try {
+      console.log('Usuario:', usuario);
+  
+      // Hash the password before saving
+      const hashedPassword = await bcrypt.hash(usuario.Contrasenna, 10);
+  
+      // Create user with hashed password
       resultado = await prisma.usuario.create({
         data: {
-            NombreUsuario: usuario.NombreUsuario,
-            Contrasenna: usuario.Contrasenna,
-            Email: usuario.Email
+          NombreUsuario: usuario.NombreUsuario,
+          Contrasenna: hashedPassword, // Use hashed password
+          Email: usuario.Email
         }
       });
+      console.log('User added:', resultado);
       await historialSistema.registrarHistorial('Usuario', 'Se agregó un usuario', resultado.IdUsuario);
     } catch (error) {
       console.error(`No se pudo insertar el usuario debido al error: ${error}`);
-    }
-    return resultado;
-  }
-  
-
-  async Actualizar(IdUsuario, datosActualizados) {
-    let resultado;
-    try {
-      resultado = await prisma.usuario.update({
-        where: { IdUsuario: parseInt(IdUsuario) },
-        data: {
-          NombreUsuario: datosActualizados.NombreUsuario,
-          Contrasenna: datosActualizados.Contrasenna, // This will now be hashed
-          Email: datosActualizados.Email
-        },
-      });
-      await historialSistema.registrarHistorial('Usuario', 'Se actualizó un usuario', IdUsuario);
-    } catch (error) {
-      console.error(`No se pudo actualizar el usuario ${IdUsuario} debido al error: ${error}`);
-    }
-    return resultado;
-  }
-  
-  
-
-  async Borrar(IdSolicitante) {
-    let resultado;
-    try {
-      const idSolicitanteInt = parseInt(IdSolicitante, 10);
-  
-      // Verificar si el solicitante existe
-      const solicitanteExiste = await prisma.solicitante.findUnique({
-        where: {
-          IdSolicitante: idSolicitanteInt
-        }
-      });
-  
-      if (!solicitanteExiste) {
-        throw new Error(`El solicitante con ID ${idSolicitanteInt} no existe`);
-      }
-  
-      // Eliminar citas relacionadas
-      await prisma.cita.deleteMany({
-        where: {
-          IdSolicitante: idSolicitanteInt
-        }
-      });
-  
-      // Eliminar solicitante
-      resultado = await prisma.solicitante.delete({
-        where: {
-          IdSolicitante: idSolicitanteInt
-        }
-      });
-    } catch (error) {
-      console.error("Error al borrar solicitante:", error);
       throw error;
     }
     return resultado;
-  }
+  }  
+
+  async Actualizar(IdUsuario, datosActualizados) {
+    if (!datosActualizados) {
+      throw new TypeError("Datos actualizados no pueden estar vacíos");
+    }
   
+    try {
+      const idUsuarioInt = parseInt(IdUsuario, 10);
+      if (isNaN(idUsuarioInt)) {
+        throw new TypeError("IdUsuario debe ser un número válido");
+      }
+  
+      // Prepare update data
+      const updateData = {
+        NombreUsuario: datosActualizados.NombreUsuario,
+        Email: datosActualizados.Email
+      };
+  
+      // Hash the password if provided
+      if (datosActualizados.Contrasenna) {
+        updateData.Contrasenna = await bcrypt.hash(datosActualizados.Contrasenna, 10);
+      }
+  
+      const resultado = await prisma.usuario.update({
+        where: { IdUsuario: idUsuarioInt },
+        data: updateData
+      });
+  
+      await historialSistema.registrarHistorial('Usuario', 'Se actualizó un usuario', IdUsuario);
+      return resultado;
+    } catch (error) {
+      console.error(`No se pudo actualizar el usuario ${IdUsuario} debido al error: ${error}`);
+      throw error;
+    }
+  }  
+  
+  async Borrar(IdUsuario) {
+    let resultado;
+    try {
+      resultado = await prisma.usuario.delete({
+        where: {
+          IdUsuario: parseInt(IdUsuario),
+        },
+      });
+      await historialSistema.registrarHistorial('Solicitante', 'Se borró un solicitante', IdUsuario);
+    } catch (error) {
+      console.error(`No se pudo borrar el solicitante ${IdUsuario} debido al error: ${error}`);
+    }
+    return resultado;
+  };
   
   Listar(IdUsuario) {
     let Usuarios;
