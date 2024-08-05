@@ -56,6 +56,7 @@ class ServicioGeneral {
           NombreServicio: datosActualizados.NombreServicio
         }
       });
+      await historialSistema.registrarHistorial('Servicio General', 'Se actualizó un servicio general', IdServicio);
     } catch (error) {
       console.error("Error al actualizar servicio general:", error);
       throw error;
@@ -63,10 +64,6 @@ class ServicioGeneral {
     return resultado;
   }
   
-  
-  
-
-
   async Borrar(IdServicio) {
     let resultado;
     try {

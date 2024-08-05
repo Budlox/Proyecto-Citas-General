@@ -9,7 +9,12 @@ class ServicioEspecifico {
 
   async Agregar(servicioEspecifico) {
     let resultado;
+    if (!servicioEspecifico || !servicioEspecifico.NombreServicioEspecifico) {
+      throw new Error('Missing NombreServicio in request body');
+    }
+
     try {
+      console.log('Adding service:', servicioEspecifico);
       resultado = await prisma.serviciosEspecificos.create({
         data: {
           IdServicio: parseInt(servicioEspecifico.IdServicio),
@@ -17,6 +22,7 @@ class ServicioEspecifico {
           CostoServicioEspecifico: parseInt(servicioEspecifico.CostoServicioEspecifico)
         }
       });
+      console.log('Service added:', resultado);
       await historialSistema.registrarHistorial('Servicio Específico', 'Se agregó un servicio específico', resultado.IdServicioEspecifico);
     } catch (error) {
       console.error(`No se pudo insertar el servicio específico debido al error: ${error}`);
@@ -26,7 +32,16 @@ class ServicioEspecifico {
 
   async Actualizar(IdServicioEspecifico, datosActualizados) {
     let resultado;
+    if (!datosActualizados) {
+      throw new TypeError("No hay datos para actualizar");
+    }
+
     try {
+      const idServicioInt = parseInt(IdServicioEspecifico, 10);
+      if (isNaN(idServicioInt)) {
+        throw new TypeError("IdServicio debe ser un número válido");
+      }
+
       resultado = await prisma.serviciosEspecificos.update({
         where: { IdServicioEspecifico: parseInt(IdServicioEspecifico) },
         data: {
@@ -109,10 +124,6 @@ class ServicioEspecifico {
     return resultado;
   }
   
-  
-  
-
-
   Listar(IdServicioEspecifico) {
     let ServiciosEspecificos;
     if (IdServicioEspecifico === undefined) {
