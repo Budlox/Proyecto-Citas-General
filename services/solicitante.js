@@ -12,7 +12,12 @@ class Solicitante {
 
   async Agregar(solicitante) {
     let resultado;
+    if (!solicitante) {
+      throw new Error('Faltan los datos');
+    }
+
     try {
+      console.log('Solicitante:', solicitante);
       resultado = await prisma.solicitante.create({
         data: {
             Nombre_Solicitante: solicitante.Nombre_Solicitante,
@@ -30,9 +35,18 @@ class Solicitante {
 
   async Actualizar(IdSolicitante, datosActualizados) {
     let resultado;
+    if (!datosActualizados) {
+      throw new TypeError("NombreServicio no puede estar vacío");
+    }
+
     try {
+      const idSolicitanteInt = parseInt(IdSolicitante, 10);
+      if (isNaN(idSolicitanteInt)) {
+        throw new TypeError("IdServicio debe ser un número válido");
+      }
+      
       resultado = await prisma.solicitante.update({
-        where: { IdSolicitante: parseInt(IdSolicitante) },
+        where: { IdSolicitante: idSolicitanteInt },
         data: {
           Nombre_Solicitante: datosActualizados.Nombre_Solicitante,
           Email: datosActualizados.Email,
