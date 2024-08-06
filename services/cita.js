@@ -81,6 +81,21 @@ class Cita {
     }
     return Citas;
   };
+
+  async BuscarPorSolicitante(IdSolicitante) {
+    let Citas;
+    try {
+      Citas = await prisma.cita.findMany({
+        where: {
+          IdSolicitante: parseInt(IdSolicitante),
+        },
+      });
+    } catch (error) {
+      console.error(`No se pudieron buscar las citas por el solicitante ${IdSolicitante} debido al error: ${error}`);
+    }
+    return Citas;
+  }
+  
 }
 
 module.exports = Cita;

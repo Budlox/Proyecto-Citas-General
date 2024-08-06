@@ -62,6 +62,7 @@ model HistorialSistema {
 model Solicitante {
   IdSolicitante       Int      @id @default(autoincrement())
   Nombre_Solicitante   String
+  Apellido_Solicitante String
   Email    String   @unique
   Contrasenna String
   citas    Cita[]    @relation("citasPorSolicitante")

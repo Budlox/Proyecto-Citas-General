@@ -86,11 +86,11 @@ async function main() {
 
   const solicitantes = await prisma.solicitante.createMany({
     data: [
-      { Nombre_Solicitante: 'Juan Perez', Email: 'juan.perez@example.com', Contrasenna: '123456' },
-      { Nombre_Solicitante: 'Maria Garcia', Email: 'maria.garcia@example.com', Contrasenna: '123456' },
-      { Nombre_Solicitante: 'Ana Lopez', Email: 'ana.lopez@example.com', Contrasenna: '123456' },
-      { Nombre_Solicitante: 'Carlos Ruiz', Email: 'carlos.ruiz@example.com', Contrasenna: '123456' },
-      { Nombre_Solicitante: 'Pedro Martinez', Email: 'pedro.martinez@example.com', Contrasenna: '123456' }
+      { Nombre_Solicitante: 'Juan', Apellido_Solicitante: 'Perez', Email: 'juan.perez@example.com', Contrasenna: '123456' },
+      { Nombre_Solicitante: 'Maria', Apellido_Solicitante: 'Garcia', Email: 'maria.garcia@example.com', Contrasenna: '123456' },
+      { Nombre_Solicitante: 'Ana', Apellido_Solicitante: 'Lopez', Email: 'ana.lopez@example.com', Contrasenna: '123456' },
+      { Nombre_Solicitante: 'Carlos', Apellido_Solicitante: 'Ruiz', Email: 'carlos.ruiz@example.com', Contrasenna: '123456' },
+      { Nombre_Solicitante: 'Pedro', Apellido_Solicitante: 'Martinez', Email: 'pedro.martinez@example.com', Contrasenna: '123456' }
     ]
   });
 

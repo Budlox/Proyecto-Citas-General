@@ -32,3 +32,8 @@ Content-Type: application/json
   "Email": "luis.castro@example.com",
   "Contrasenna": "1234"
 }
+
+###
+
+GET http://localhost/solicitante/buscarPorNombre?nombre=Juan HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IkVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJSb2wiOiJOaXZlbDAiLCJJZFVzdWFyaW8iOjF9LCJpYXQiOjE3MjI5MDE2MDgsImV4cCI6MTcyMjkwMTY2OH0.ZlnbiD1TQUfutGA1u4v0dOlAsXE3AwxY0Uxe864jiTw

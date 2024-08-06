@@ -65,5 +65,21 @@ Router.put('/:IdSolicitante', async (solicitud, respuesta) => {
   }
   });
   
+  Router.get('/buscarPorNombre', async (solicitud, respuesta) => {
+    const isValidToken = await Usuario.ValidarToken(solicitud);
+    if (isValidToken) {
+      const newToken = await Usuario.RegenerarToken(isValidToken.Email, isValidToken.Rol, isValidToken.IdUsuario);
+      const nombre = solicitud.query.nombre;
+      if (nombre) {
+        const solicitantes = await Solicitantes.BuscarPorNombre(nombre);
+        respuesta.json({ Token: newToken, Solicitantes: solicitantes });
+      } else {
+        respuesta.status(400).json({ error: 'Nombre no proporcionado' });
+      }
+    } else {
+      respuesta.status(401).json({ error: "Token inválido" });
+    }
+  });
+
 
 module.exports = Router;

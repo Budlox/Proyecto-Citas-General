@@ -23,6 +23,7 @@ class Solicitante {
       resultado = await prisma.solicitante.create({
         data: {
           Nombre_Solicitante: solicitante.Nombre_Solicitante,
+          Apellido_Solicitante: solicitante.Apellido_Solicitante,
           Email: solicitante.Email,
           Contrasenna: hashedPassword
         }
@@ -49,6 +50,7 @@ class Solicitante {
       // Prepare the data to be updated
       const updateData = {
         Nombre_Solicitante: datosActualizados.Nombre_Solicitante,
+        Apellido_Solicitante: datosActualizados.Apellido_Solicitante,
         Email: datosActualizados.Email
       };
 
@@ -117,6 +119,28 @@ class Solicitante {
     }
     return Solicitantes;
   }
+
+  async BuscarPorNombre(nombre) {
+    try {
+      if (!nombre) {
+        throw new Error('El nombre no puede estar vacío');
+      }
+  
+      // Search solicitantes by name using Prisma
+      return await prisma.solicitante.findMany({
+        where: {
+          Nombre_Solicitante: {
+            contains: nombre,   // This allows partial matching
+            mode: 'insensitive' // Case-insensitive search
+          }
+        }
+      });
+    } catch (error) {
+      console.error(`No se pudo buscar solicitantes por nombre debido al error: ${error}`);
+      throw error;
+    }
+  }
+  
 }
 
 module.exports = Solicitante;
