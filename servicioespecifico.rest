@@ -4,8 +4,8 @@ GET http://localhost/servicioespecifico/ HTTP/1.1
 
 ###
 
-GET http://localhost/servicioespecifico/32 HTTP/1.1
-
+GET http://localhost/servicioespecifico/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IkVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJSb2wiOiJOaXZlbDAiLCJJZFVzdWFyaW8iOjF9LCJpYXQiOjE3MjMwMDg5MzEsImV4cCI6MTcyMzAwODk5MX0.VqwxSuOJZWbWbFkSMVrGCzoL6nKwUsOH6uAXTgC-poo
 ###
 
 POST http://localhost/servicioespecifico HTTP/1.1

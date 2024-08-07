@@ -22,7 +22,7 @@ Router.get("/:IdServicioEspecifico", async (solicitud, respuesta) => {
   if(isValidToken) {
     const newToken = await Usuario.RegenerarToken(isValidToken.Email, isValidToken.Rol, isValidToken.IdUsuario);
     const ServiciosEspecificos = await listadoDeServiciosEspecificos(solicitud.params.IdServicioEspecifico);
-    respuesta.json({Token: newToken, ServiciosEspecificos})
+    respuesta.json({Token: newToken, ServiciosEspecificos});
   } else {
     respuesta.status(401).json({ error: "Token inválido" });
   }
