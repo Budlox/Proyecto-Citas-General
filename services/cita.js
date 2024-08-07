@@ -83,19 +83,20 @@ class Cita {
   };
 
   async BuscarPorSolicitante(IdSolicitante) {
-    let Citas;
     try {
-      Citas = await prisma.cita.findMany({
-        where: {
-          IdSolicitante: parseInt(IdSolicitante),
-        },
-      });
+        const citas = await prisma.cita.findMany({
+            where: {
+                IdSolicitante: parseInt(IdSolicitante, 10), // Ensure IdSolicitante is an integer
+            },
+        });
+        return citas;
     } catch (error) {
-      console.error(`No se pudieron buscar las citas por el solicitante ${IdSolicitante} debido al error: ${error}`);
+        console.error(`No se pudieron buscar las citas por el solicitante ${IdSolicitante} debido al error: ${error}`);
+        throw new Error('Error fetching citas'); // Rethrow error to handle it in the route handler
     }
-    return Citas;
-  }
-  
+}
+
+
 }
 
 module.exports = Cita;
