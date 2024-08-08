@@ -37,7 +37,7 @@ class Usuario {
           IdUsuario: usuario.IdUsuario,
         };
         const token = jwt.sign({ data: payload }, this.PalabraSecreta, {
-          expiresIn: "1m",
+          expiresIn: "3m",
         });
 
         await prisma.usuario.update({
@@ -74,7 +74,7 @@ class Usuario {
 
     const payload = { Email: Email, Rol: Rol, IdUsuario: IdUsuario };
     const newToken = jwt.sign({ data: payload }, this.PalabraSecreta, {
-      expiresIn: "1m",
+      expiresIn: "3m",
     });
 
     try {
