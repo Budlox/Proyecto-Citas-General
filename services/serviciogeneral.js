@@ -1,6 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
-const HistorialSistema = require('./historialsistema');
-const ServicioEspecifico = require('./servicioespecifico'); // Importa la clase ServicioEspecifico
+const HistorialSistema = require("./historialsistema");
+const ServicioEspecifico = require("./servicioespecifico"); // Importa la clase ServicioEspecifico
 
 const prisma = new PrismaClient();
 const historialSistema = new HistorialSistema();
@@ -12,27 +12,31 @@ class ServicioGeneral {
   async Agregar(servicioGeneral) {
     let resultado;
     if (!servicioGeneral || !servicioGeneral.NombreServicio) {
-      throw new Error('Missing NombreServicio in request body');
+      throw new Error("Missing NombreServicio in request body");
     }
-  
+
     try {
-      console.log('Adding service:', servicioGeneral);
+      console.log("Adding service:", servicioGeneral);
       resultado = await prisma.serviciosGeneral.create({
         data: {
-          NombreServicio: servicioGeneral.NombreServicio
-        }
+          NombreServicio: servicioGeneral.NombreServicio,
+        },
       });
-      console.log('Service added:', resultado);
-      await historialSistema.registrarHistorial('Servicio General', 'Se agregó un servicio general', resultado.IdServicio);
+      console.log("Service added:", resultado);
+      await historialSistema.registrarHistorial(
+        "Servicio General",
+        "Se agregó un servicio general",
+        resultado.IdServicio
+      );
     } catch (error) {
-      console.error(`No se pudo insertar el servicio general ${JSON.stringify(servicioGeneral)} debido al error: ${error}`);
+      console.error(
+        `No se pudo insertar el servicio general ${JSON.stringify(
+          servicioGeneral
+        )} debido al error: ${error}`
+      );
     }
     return resultado;
   }
-  
-  
-  
-  
 
   // Actualizar servicio general
   async Actualizar(IdServicio, datosActualizados) {
@@ -40,30 +44,34 @@ class ServicioGeneral {
     if (!datosActualizados || !datosActualizados.NombreServicio) {
       throw new TypeError("NombreServicio no puede estar vacío");
     }
-  
+
     try {
       // Convert IdServicio to an integer
       const idServicioInt = parseInt(IdServicio, 10);
       if (isNaN(idServicioInt)) {
         throw new TypeError("IdServicio debe ser un número válido");
       }
-  
+
       resultado = await prisma.serviciosGeneral.update({
         where: {
-          IdServicio: idServicioInt
+          IdServicio: idServicioInt,
         },
         data: {
-          NombreServicio: datosActualizados.NombreServicio
-        }
+          NombreServicio: datosActualizados.NombreServicio,
+        },
       });
-      await historialSistema.registrarHistorial('Servicio General', 'Se actualizó un servicio general', IdServicio);
+      await historialSistema.registrarHistorial(
+        "Servicio General",
+        "Se actualizó un servicio general",
+        IdServicio
+      );
     } catch (error) {
       console.error("Error al actualizar servicio general:", error);
       throw error;
     }
     return resultado;
   }
-  
+
   async Borrar(IdServicio) {
     let resultado;
     try {
@@ -75,9 +83,15 @@ class ServicioGeneral {
           IdServicio: parseInt(IdServicio),
         },
       });
-      await historialSistema.registrarHistorial('Servicio General', 'Se borró un servicio general', IdServicio);
+      await historialSistema.registrarHistorial(
+        "Servicio General",
+        "Se borró un servicio general",
+        IdServicio
+      );
     } catch (error) {
-      console.error(`No se pudo borrar el servicio general ${IdServicio} debido al error: ${error}`);
+      console.error(
+        `No se pudo borrar el servicio general ${IdServicio} debido al error: ${error}`
+      );
     }
     return resultado;
   }

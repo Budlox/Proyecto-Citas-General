@@ -1,12 +1,9 @@
-const { PrismaClient } = require("@prisma/client")
+const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
 class HistorialSistema {
-
-  constructor() {
-
-  };
+  constructor() {}
 
   async registrarHistorial(nombreModelo, descripcionAccion, idModelo) {
     try {
@@ -14,11 +11,13 @@ class HistorialSistema {
         data: {
           NombreModelo: nombreModelo,
           DescripcionAccion: `${descripcionAccion} - ID: ${idModelo}`,
-          IdUsuario: 1
-        }
+          IdUsuario: 1,
+        },
       });
     } catch (error) {
-      console.error(`No se pudo registrar la acción en el historial debido al error: ${error}`);
+      console.error(
+        `No se pudo registrar la acción en el historial debido al error: ${error}`
+      );
     }
   }
 }
