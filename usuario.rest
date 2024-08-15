@@ -1,7 +1,7 @@
 ###
 
 GET http://localhost/usuario/ HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IkVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJSb2wiOiJOaXZlbDAiLCJJZFVzdWFyaW8iOjF9LCJpYXQiOjE3MjI4Mjg0NTAsImV4cCI6MTcyMjgyODUxMH0.7XGbit7llVkl0IwYp1dfoB09hqmrrALSYfggPYMOcUg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IkVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJSb2wiOiJOaXZlbDAiLCJJZFVzdWFyaW8iOjF9LCJpYXQiOjE3MjM2ODMxODksImV4cCI6MTcyMzY4MzM2OX0.texFhakiCxXrcuF3CKPZZJ-uwiD2mSbICVyJrnhVQMk
 ###
 
 GET http://localhost/usuario/10 HTTP/1.1
@@ -24,14 +24,17 @@ DELETE http://localhost/usuario/11 HTTP/1.1
 
 ###
 
-PUT http://localhost/usuario/12 HTTP/1.1
+PUT http://localhost/usuario/4 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IkVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJSb2wiOiJOaXZlbDAiLCJJZFVzdWFyaW8iOjF9LCJpYXQiOjE3MjM2ODI4ODQsImV4cCI6MTcyMzY4MzA2NH0._28CBqvo4sRFW9w0E73M2w-zIjHa9jUXqa9gJDbroyU
 Content-Type: application/json
 
 {
-    "NombreUsuario": "prueba_usuario",
-    "Contrasenna": "1234",
+    "NombreUsuario": "lisa_rey",
+    "Contrasenna": "123456",
     "Email": "pruebausuario@example.com",
-    "FechaRegistro": "2024-06-08T00:34:27.693Z"
+    "FechaRegistro": "2024-06-08T00:34:27.693Z",
+    "Rol": "Nivel1",
+    "Token": "-"
   }
 
 ###
@@ -45,4 +48,4 @@ Content-Type: application/json
 
 ###
 POST http://localhost/usuario/validartoken HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IkVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJSb2wiOiJOaXZlbDAiLCJJZFVzdWFyaW8iOjF9LCJpYXQiOjE3MjI0Nzk4MzMsImV4cCI6MTcyMjQ3OTg5M30.13lRGIudCnTK4GmrEUqW7-SX49UfTGyahGZMJiEDsFU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IkVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJSb2wiOiJOaXZlbDAiLCJJZFVzdWFyaW8iOjF9LCJpYXQiOjE3MjM2ODE5OTgsImV4cCI6MTcyMzY4MjE3OH0.7BFjG-V3w1rrqGHiB8vbAIXMbE62NnjIjnh_OGhn-0w

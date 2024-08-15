@@ -1,7 +1,7 @@
 ###
 
 GET http://localhost/serviciogeneral/ HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IkVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJSb2wiOiJOaXZlbDAiLCJJZFVzdWFyaW8iOjF9LCJpYXQiOjE3MjI3OTkxNzcsImV4cCI6MTcyMjc5OTIzN30.NakJ7sdSDxGenUm0dZPCA6wbw2Qaqqfp9T_IMAEcnFY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IkVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJSb2wiOiJOaXZlbDAiLCJJZFVzdWFyaW8iOjF9LCJpYXQiOjE3MjM2ODQ4MjEsImV4cCI6MTcyMzY4NTAwMX0.EchV-1g-eB-8_WLDVGuVf8APmVM4svBkj8MPR5IRVW8
 ###
 
 GET http://localhost/serviciogeneral/5 HTTP/1.1

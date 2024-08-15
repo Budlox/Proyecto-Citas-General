@@ -21,10 +21,12 @@ class Usuario {
       });
 
       if (usuarios.length === 0) {
+        console.log("No user found with the provided email.");
         return false;
       }
 
       const usuario = usuarios[0];
+
       const resultado = await bcrypt.compare(
         ClaveSinEncriptar,
         usuario.Contrasenna
@@ -50,7 +52,6 @@ class Usuario {
         return false;
       }
     } catch (error) {
-      console.error(error);
       throw new Error("Error en la autenticación");
     }
   }
@@ -144,6 +145,7 @@ class Usuario {
       const updateData = {
         NombreUsuario: datosActualizados.NombreUsuario,
         Email: datosActualizados.Email,
+        Rol: datosActualizados.Rol,
       };
 
       // Hash the password if provided
@@ -206,6 +208,20 @@ class Usuario {
       });
     }
     return Usuarios;
+  }
+
+  async validarRol(solicitud) {
+    try {
+      const tokenData = await this.ValidarToken(solicitud);
+      if (!tokenData) {
+        return false; // Token is invalid
+      }
+
+      return tokenData.Rol === "Nivel0";
+    } catch (error) {
+      console.error(`Error checking role: ${error}`);
+      return false;
+    }
   }
 }
 

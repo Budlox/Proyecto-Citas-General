@@ -8,16 +8,21 @@ const Usuario = new ServicioUsuario();
 
 Router.get("/", async (solicitud, respuesta) => {
   const isValidToken = await Usuario.ValidarToken(solicitud);
+  const isValidRol = await Usuario.validarRol(solicitud);
   if (isValidToken) {
-    const newToken = await Usuario.RegenerarToken(
-      isValidToken.Email,
-      isValidToken.Rol,
-      isValidToken.IdUsuario
-    );
-    const ServiciosGenerales = await listadoDeServiciosGenerales(
-      solicitud.params.IdServicio
-    );
-    respuesta.json({ Token: newToken, ServiciosGenerales });
+    if (isValidRol) {
+      const newToken = await Usuario.RegenerarToken(
+        isValidToken.Email,
+        isValidToken.Rol,
+        isValidToken.IdUsuario
+      );
+      const ServiciosGenerales = await listadoDeServiciosGenerales(
+        solicitud.params.IdServicio
+      );
+      respuesta.json({ Token: newToken, ServiciosGenerales });
+    } else {
+      respuesta.status(401).json({ error: "Rol inválido" });
+    }
   } else {
     respuesta.status(401).json({ error: "Token inválido" });
   }
@@ -25,16 +30,21 @@ Router.get("/", async (solicitud, respuesta) => {
 
 Router.get("/:IdServicio", async (solicitud, respuesta) => {
   const isValidToken = await Usuario.ValidarToken(solicitud);
+  const isValidRol = await Usuario.validarRol(solicitud);
   if (isValidToken) {
-    const newToken = await Usuario.RegenerarToken(
-      isValidToken.Email,
-      isValidToken.Rol,
-      isValidToken.IdUsuario
-    );
-    const ServiciosGenerales = await listadoDeServiciosGenerales(
-      solicitud.params.IdServicio
-    );
-    respuesta.json({ Token: newToken, ServiciosGenerales });
+    if (isValidRol) {
+      const newToken = await Usuario.RegenerarToken(
+        isValidToken.Email,
+        isValidToken.Rol,
+        isValidToken.IdUsuario
+      );
+      const ServiciosGenerales = await listadoDeServiciosGenerales(
+        solicitud.params.IdServicio
+      );
+      respuesta.json({ Token: newToken, ServiciosGenerales });
+    } else {
+      respuesta.status(401).json({ error: "Rol inválido" });
+    }
   } else {
     respuesta.status(401).json({ error: "Token inválido" });
   }
@@ -46,14 +56,19 @@ function listadoDeServiciosGenerales(IdServicio) {
 
 Router.post("/", async (solicitud, respuesta) => {
   const isValidToken = await Usuario.ValidarToken(solicitud);
+  const isValidRol = await Usuario.validarRol(solicitud);
   if (isValidToken) {
-    const newToken = await Usuario.RegenerarToken(
-      isValidToken.Email,
-      isValidToken.Rol,
-      isValidToken.IdUsuario
-    );
-    const nuevoServicio = await ServicioGenerales.Agregar(solicitud.body); // Await the result here
-    respuesta.json({ Servicio: nuevoServicio, Token: newToken });
+    if (isValidRol) {
+      const newToken = await Usuario.RegenerarToken(
+        isValidToken.Email,
+        isValidToken.Rol,
+        isValidToken.IdUsuario
+      );
+      const nuevoServicio = await ServicioGenerales.Agregar(solicitud.body); // Await the result here
+      respuesta.json({ Servicio: nuevoServicio, Token: newToken });
+    } else {
+      respuesta.status(401).json({ error: "Rol inválido" });
+    }
   } else {
     respuesta.status(401).json({ error: "Token inválido" });
   }
@@ -61,16 +76,21 @@ Router.post("/", async (solicitud, respuesta) => {
 
 Router.delete("/:IdServicio", async (solicitud, respuesta) => {
   const isValidToken = await Usuario.ValidarToken(solicitud);
+  const isValidRol = await Usuario.validarRol(solicitud);
   if (isValidToken) {
-    const newToken = await Usuario.RegenerarToken(
-      isValidToken.Email,
-      isValidToken.Rol,
-      isValidToken.IdUsuario
-    );
-    respuesta.json({
-      Servicio: ServicioGenerales.Borrar(solicitud.params.IdServicio),
-      Token: newToken,
-    });
+    if (isValidRol) {
+      const newToken = await Usuario.RegenerarToken(
+        isValidToken.Email,
+        isValidToken.Rol,
+        isValidToken.IdUsuario
+      );
+      respuesta.json({
+        Servicio: ServicioGenerales.Borrar(solicitud.params.IdServicio),
+        Token: newToken,
+      });
+    } else {
+      respuesta.status(401).json({ error: "Rol inválido" });
+    }
   } else {
     respuesta.status(401).json({ error: "Token inválido" });
   }
@@ -78,18 +98,23 @@ Router.delete("/:IdServicio", async (solicitud, respuesta) => {
 
 Router.put("/:IdServicio", async (solicitud, respuesta) => {
   const isValidToken = await Usuario.ValidarToken(solicitud);
+  const isValidRol = await Usuario.validarRol(solicitud);
   if (isValidToken) {
-    const newToken = await Usuario.RegenerarToken(
-      isValidToken.Email,
-      isValidToken.Rol,
-      isValidToken.IdUsuario
-    );
-    const { IdServicio } = solicitud.params;
-    const datosActualizados = solicitud.body;
-    respuesta.json({
-      Servicio: ServicioGenerales.Actualizar(IdServicio, datosActualizados),
-      Token: newToken,
-    });
+    if (isValidRol) {
+      const newToken = await Usuario.RegenerarToken(
+        isValidToken.Email,
+        isValidToken.Rol,
+        isValidToken.IdUsuario
+      );
+      const { IdServicio } = solicitud.params;
+      const datosActualizados = solicitud.body;
+      respuesta.json({
+        Servicio: ServicioGenerales.Actualizar(IdServicio, datosActualizados),
+        Token: newToken,
+      });
+    } else {
+      respuesta.status(401).json({ error: "Rol inválido" });
+    }
   } else {
     respuesta.status(401).json({ error: "Token inválido" });
   }
